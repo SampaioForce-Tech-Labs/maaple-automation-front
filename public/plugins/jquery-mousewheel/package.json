@@ -49,5 +49,8 @@
     "dependencies": {
       "jquery": ">=1.2.2"
     }
+  },
+  "dependencies": {
+    "jquery-mousewheel": "file:"
   }
 }

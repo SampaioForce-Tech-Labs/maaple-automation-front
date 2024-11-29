@@ -29,5 +29,8 @@
     "name": "Adam Shaw",
     "email": "arshaw@arshaw.com",
     "url": "http://arshaw.com/"
+  },
+  "dependencies": {
+    "fullcalendar": "file:"
   }
 }

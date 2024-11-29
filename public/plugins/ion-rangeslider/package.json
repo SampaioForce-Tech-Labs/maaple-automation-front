@@ -43,5 +43,8 @@
         "_tmp",
         "PSD",
         "bower.json"
-    ]
+    ],
+    "dependencies": {
+        "ion-rangeslider": "file:"
+    }
 }

@@ -19,5 +19,8 @@
     "sass"
   ],
   "bugs": "https://github.com/sweetalert2/sweetalert2-themes/issues",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "@sweetalert2/theme-bootstrap-4": "file:"
+  }
 }
