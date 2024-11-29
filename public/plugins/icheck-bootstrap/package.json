@@ -25,5 +25,8 @@
     "pure",
     "css"
   ],
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "icheck-bootstrap": "file:"
+  }
 }

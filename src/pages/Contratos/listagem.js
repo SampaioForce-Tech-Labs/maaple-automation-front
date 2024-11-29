@@ -14,7 +14,7 @@ export default function ListagemClientes() {
     }, []);
 
     async function buscarClientes(nome = "") {
-        const url = nome ? `/clientes?nome=${nome}` : "/cliente/listar";
+        const url = nome ? `/cliente/filtro/${encodeURIComponent(nome)}` : "/cliente/listar";
         await api.get(url).then((response) => {
             setClientes(response.data);
         }).catch((error) => {
