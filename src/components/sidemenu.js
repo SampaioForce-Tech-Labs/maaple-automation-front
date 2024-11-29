@@ -1,48 +1,51 @@
-import {Link} from "react-router-dom";
-import {useEffect, useState} from "react";
+import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
 import React from "react";
 import api from "../service/api";
 import { logout } from "../service/auth";
 
-
 export default function SideMenu() {
-    const [permissao, setPermissao] = useState('');
+    const [permissao, setPermissao] = useState("");
+
     useEffect(() => {
-        api.get('/user/permissao').then(response => {
+        api.get("/user/permissao").then((response) => {
             setPermissao(response.data[0].name);
         });
     }, []);
 
-    function atualizaMenu() {
-        const currentPath = window.location.pathname;
-        const menuItems = document.querySelectorAll('.nav-link');
-        menuItems.forEach(item => {
-            if (item.getAttribute('href') === currentPath) {
-                item.classList.add('active');
-            }
-        });
-    }
-
-
     return (
         <aside className="main-sidebar sidebar-dark-primary elevation-4">
-
+            {/* Logo e Nome */}
             <Link to="/" className="brand-link">
-                <img src="/dist/img/logo.png" alt="Logo" className="brand-image elevation-3"
-                     style={{opacity: .8}}/>
-                <span className="brand-text font-weight-light"> Automatizador</span>
+                <img
+                    src="/dist/img/logo.png"
+                    alt="Logo"
+                    className="brand-image elevation-3"
+                    style={{ opacity: 0.8 }}
+                />
+                <span className="brand-text font-weight-light">Automatizador</span>
             </Link>
+
+            {/* Menu */}
             <div className="sidebar">
                 <nav className="mt-2">
-                    <ul className="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu">
+                    <ul
+                        className="nav nav-pills nav-sidebar flex-column"
+                        data-widget="treeview"
+                        role="menu"
+                    >
+                        {/* Menu Principal */}
                         <li className="nav-item">
                             <Link to="/" className="nav-link active">
                                 <i className="nav-icon fas fa-home"></i>
-                                <p>Inicio</p>
+                                <p>Início</p>
                             </Link>
                         </li>
-                        {permissao === "ROLE_ADMIN" &&
+
+                        {/* Itens Restritos ao Admin */}
+                        {permissao === "ROLE_ADMIN" && (
                             <>
+                                {/* Funcionários */}
                                 <li className="nav-item menu-closed">
                                     <a href="#" className="nav-link">
                                         <i className="nav-icon fas fa-user"></i>
@@ -67,6 +70,7 @@ export default function SideMenu() {
                                     </ul>
                                 </li>
 
+                                {/* Contratos */}
                                 <li className="nav-item menu-closed">
                                     <a href="#" className="nav-link">
                                         <i className="nav-icon fas fa-file"></i>
@@ -90,9 +94,36 @@ export default function SideMenu() {
                                         </li>
                                     </ul>
                                 </li>
+
+                                {/* Clientes */}
+                                <li className="nav-item menu-closed">
+                                    <a href="#" className="nav-link">
+                                        <i className="nav-icon fas fa-users"></i>
+                                        <p>
+                                            Clientes
+                                            <i className="right fas fa-angle-left"></i>
+                                        </p>
+                                    </a>
+                                    <ul className="nav nav-treeview">
+                                        <li className="nav-item">
+                                            <Link to="/clientes/novo" className="nav-link">
+                                                <i className="fas fa-plus nav-icon"></i>
+                                                <p>Novo</p>
+                                            </Link>
+                                        </li>
+                                        <li className="nav-item">
+                                            <Link to="/clientes/listar" className="nav-link">
+                                                <i className="fas fa-scroll nav-icon"></i>
+                                                <p>Listagem</p>
+                                            </Link>
+                                        </li>
+                                    </ul>
+                                </li>
                             </>
-                        }
-                        <li className={'nav-item'}>
+                        )}
+
+                        {/* Sair */}
+                        <li className="nav-item">
                             <Link to="#logout" className="nav-link" onClick={logout}>
                                 <i className="nav-icon fas fa-door-open"></i>
                                 <p>Sair</p>
@@ -100,9 +131,7 @@ export default function SideMenu() {
                         </li>
                     </ul>
                 </nav>
-
             </div>
-
         </aside>
-    )
+    );
 }
