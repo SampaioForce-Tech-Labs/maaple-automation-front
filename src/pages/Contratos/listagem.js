@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function ListagemClientes() {
     const [clientes, setClientes] = useState([]);
-    const [nomeFiltro, setNomeFiltro] = useState(""); // Estado para o filtro
+    const [nomeFiltro, setNomeFiltro] = useState("");
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -14,7 +14,7 @@ export default function ListagemClientes() {
     }, []);
 
     async function buscarClientes(nome = "") {
-        const url = nome ? `/clientes?nome=${nome}` : "/clientes";
+        const url = nome ? `/clientes?nome=${nome}` : "/cliente/listar";
         await api.get(url).then((response) => {
             setClientes(response.data);
         }).catch((error) => {
@@ -23,7 +23,7 @@ export default function ListagemClientes() {
     }
 
     async function deletarCliente(id) {
-        await api.delete(`/clientes/${id}`).then(() => {
+        await api.delete(`/cliente/${id}`).then(() => {
             buscarClientes(nomeFiltro); // Atualiza a lista após exclusão
         }).catch((error) => {
             console.error("Erro ao deletar cliente:", error);
@@ -31,13 +31,13 @@ export default function ListagemClientes() {
     }
 
     function editarCliente(id) {
-        navigate(`/clientes/editar/${id}`);
+        navigate(`/cliente/editar/${id}`);
     }
 
     function handleFiltro(e) {
         const nome = e.target.value;
         setNomeFiltro(nome);
-        buscarClientes(nome); // Atualiza a lista com base no filtro
+        buscarClientes(nome);
     }
 
     return (
@@ -79,8 +79,8 @@ export default function ListagemClientes() {
                                     clientes.map((cliente) => (
                                         <tr key={cliente.id}>
                                             <td>{cliente.id}</td>
-                                            <td>{cliente.nome}</td>
-                                            <td>{cliente.cpfCnpj}</td>
+                                            <td>{cliente.razaoSocial}</td>
+                                            <td>{cliente.cnpjCpf}</td>
                                             <td>{cliente.cidade}</td>
                                             <td>{cliente.estado}</td>
                                             <td>
