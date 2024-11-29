@@ -16,7 +16,8 @@ export default function ListagemClientes() {
     async function buscarClientes(nome = "") {
         const url = nome ? `/cliente/filtro/${encodeURIComponent(nome)}` : "/cliente/listar";
         await api.get(url).then((response) => {
-            setClientes(response.data);
+            const clienteData = Array.isArray(response.data) ? response.data : [response.data];
+            setClientes(clienteData.filter(cliente => cliente !== null));
         }).catch((error) => {
             console.error("Erro ao buscar clientes:", error);
         });
