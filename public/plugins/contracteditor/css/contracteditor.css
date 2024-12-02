@@ -1,0 +1,26 @@
+.contract-container {
+    margin: 0;
+    padding: 0;
+}
+
+.pdf-page {
+    break-after: page;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.editable-field {
+    border: 1px solid transparent;
+    padding: 5px;
+    margin: 5px 0;
+    min-height: 24px;
+}
+
+.editable-field:hover {
+    border-color: #ddd;
+}
+
+.editable-field:focus {
+    border-color: #007bff;
+    outline: none;
+}

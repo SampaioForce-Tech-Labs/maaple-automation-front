@@ -11,6 +11,7 @@ import CadastroClientes from "./pages/Contratos/cadastro"; // Nova rota
 import ListagemClientes from "./pages/Contratos/listagem"; // Nova rota
 import Login from "./pages/Login";
 import { isAuthenticated } from "./service/auth";
+import EditorContrato from "./pages/Contratos/EditorContrato";
 import React from "react";
 
 function App() {
@@ -29,6 +30,9 @@ function App() {
                         <Routes>
                             {/* Página Inicial */}
                             <Route path="/" exact element={<Home />} />
+
+                            {/* Rotas do Editor Contrato */}
+                            <Route path="/contratos/editor-contrato" exact element={<EditorContrato />} />
 
                             {/* Rotas de Funcionários */}
                             <Route path="/funcionarios/novo" element={<CadastroFuncionarios />} />
