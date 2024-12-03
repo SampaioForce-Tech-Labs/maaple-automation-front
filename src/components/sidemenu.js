@@ -92,6 +92,12 @@ export default function SideMenu() {
                                                 <p>Listagem</p>
                                             </Link>
                                         </li>
+                                        <li className="nav-item">
+                                            <Link to="/contratos/editor-contrato" className="nav-link">
+                                                <i className="fas fa-download"></i>
+                                                <p> Download</p>
+                                            </Link>
+                                        </li>
                                     </ul>
                                 </li>
 
@@ -100,7 +106,7 @@ export default function SideMenu() {
                                     <a href="#" className="nav-link">
                                         <i className="nav-icon fas fa-users"></i>
                                         <p>
-                                            Clientes
+                                        Clientes
                                             <i className="right fas fa-angle-left"></i>
                                         </p>
                                     </a>

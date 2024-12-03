@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import api from '../../../service/api';
-  
+import '../EditorContrato/ContractEditorPage.css';
+
 const ContractEditorPage = () => {
   const [razaoSocial, setRazaoSocial] = useState('');
   const [error, setError] = useState('');
@@ -23,10 +24,9 @@ const ContractEditorPage = () => {
 
   const handleSavePDF = async () => {
     const pdfConverter = new window.PDFConverter();
-    const htmlContent = document.querySelector('.contract-container').innerHTML;
+    const htmlContent = document.querySelector('.contract-content').innerHTML;
     const pdfBlob = await pdfConverter.convertHTMLtoPDF(htmlContent);
-    
-    // Create download link
+
     const url = window.URL.createObjectURL(pdfBlob);
     const link = document.createElement('a');
     link.href = url;
@@ -35,24 +35,21 @@ const ContractEditorPage = () => {
   };
 
   return (
-    <div id="contractEditor">
-      <div className="contract-container">
-        <input 
-          type="text" 
-          placeholder="Digite a razão social" 
-          value={razaoSocial}
-          onChange={(e) => setRazaoSocial(e.target.value)}
-        />
-        <input type="file" id="pdfUpload" accept=".pdf" onChange={handleFileUpload} />
-        <div id="editableContent" style={{
-          margin: 0,
-          padding: 0,
-          lineHeight: 1,
-          display: 'block'
-        }}></div>
-        <button id="savePDF" onClick={handleSavePDF}>Save as PDF</button>
+      <div className="contract-editor">
+        <div className="contract-inputs">
+          <input
+              type="text"
+              placeholder="Digite a razão social"
+              value={razaoSocial}
+              onChange={(e) => setRazaoSocial(e.target.value)}
+          />
+          <input type="file" id="pdfUpload" accept=".pdf" onChange={handleFileUpload} />
+        </div>
+        {error && <div className="error-message">{error}</div>}
+        <div className="contract-content" id="editableContent"></div>
+        <button className="btn-save" onClick={handleSavePDF}>Salvar como PDF</button>
       </div>
-    </div>
   );
 };
+
 export default ContractEditorPage;
