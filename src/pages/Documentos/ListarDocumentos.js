@@ -24,7 +24,10 @@ const ListarDocumentos = () => {
 
     const handleDownload = async (documentoId, documentoNome) => {
         try {
-            const response = await api.get(`/documentos/download/${documentoId}`, {
+            // Remove BsonObjectId{value= from the ID if present
+            const cleanId = documentoId.toString().replace(/BsonObjectId{value=/, '').replace(/}$/, '');
+            
+            const response = await api.get(`/documentos/download/${cleanId}`, {
                 responseType: "blob",
             });
             if (response.status === 200) {
@@ -44,7 +47,6 @@ const ListarDocumentos = () => {
             setErro("Erro ao tentar baixar o documento.");
         }
     };
-
     return (
         <div className="container">
             <h2>Documentos</h2>
