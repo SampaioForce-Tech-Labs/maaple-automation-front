@@ -70,24 +70,25 @@ export default function SideMenu() {
                                     </ul>
                                 </li>
 
-                                {/* Contratos */}
+
+                                {/* Documentos */}
                                 <li className="nav-item menu-closed">
                                     <a href="#" className="nav-link">
                                         <i className="nav-icon fas fa-file"></i>
                                         <p>
-                                            Contratos
+                                            Documentos
                                             <i className="right fas fa-angle-left"></i>
                                         </p>
                                     </a>
                                     <ul className="nav nav-treeview">
                                         <li className="nav-item">
-                                            <Link to="/contratos/cadastrar" className="nav-link">
+                                            <Link to="/documentos/upload" className="nav-link">
                                                 <i className="fas fa-plus nav-icon"></i>
-                                                <p>Novo</p>
+                                                <p>Upload</p>
                                             </Link>
                                         </li>
                                         <li className="nav-item">
-                                            <Link to="/contratos/listar" className="nav-link">
+                                            <Link to="/documentos/listar" className="nav-link">
                                                 <i className="fas fa-scroll nav-icon"></i>
                                                 <p>Listagem</p>
                                             </Link>
