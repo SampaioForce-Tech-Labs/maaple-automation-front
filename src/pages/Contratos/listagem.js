@@ -25,14 +25,14 @@ export default function ListagemClientes() {
 
     async function deletarCliente(id) {
         await api.delete(`/cliente/${id}`).then(() => {
-            buscarClientes(nomeFiltro); // Atualiza a lista após exclusão
+            buscarClientes(nomeFiltro);
         }).catch((error) => {
             console.error("Erro ao deletar cliente:", error);
         });
     }
 
-    function editarCliente(id) {
-        navigate(`/cliente/editar/${id}`);
+    function selecionarCliente(id) {
+        navigate(`/cliente/selecionar/${id}`);
     }
 
     function handleFiltro(e) {
@@ -89,9 +89,9 @@ export default function ListagemClientes() {
                                                     <button
                                                         type="button"
                                                         className="btn btn-primary"
-                                                        onClick={() => editarCliente(cliente.id)}
+                                                        onClick={() => selecionarCliente(cliente.id)}
                                                     >
-                                                        Editar
+                                                        Selecionar
                                                     </button>
                                                     <button
                                                         type="button"

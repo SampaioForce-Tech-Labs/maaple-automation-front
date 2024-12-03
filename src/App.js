@@ -5,13 +5,14 @@ import Navbar from "./components/navbar";
 import Home from "./pages/Home";
 import CadastroFuncionarios from "./pages/funcionarios/cadastro";
 import ListagemFuncionarios from "./pages/funcionarios/listagem";
-import CadastroEquipamentosLenovo from "./pages/Lenovo/equipamento/cadastro";
-import ListagemEquipamentosLenovo from "./pages/Lenovo/equipamento/listagem";
-import CadastroClientes from "./pages/Contratos/cadastro"; // Nova rota
-import ListagemClientes from "./pages/Contratos/listagem"; // Nova rota
+import CadastroClientes from "./pages/Contratos/cadastro";
+import ListagemClientes from "./pages/Contratos/listagem";
 import Login from "./pages/Login";
 import { isAuthenticated } from "./service/auth";
 import EditorContrato from "./pages/Contratos/EditorContrato";
+import CadastroDocumento from "./pages/Documentos/UploadDocumento";
+import ListagemDocumentos from "./pages/Documentos/ListarDocumentos";
+
 import React from "react";
 
 function App() {
@@ -39,9 +40,9 @@ function App() {
                             <Route path="/funcionarios/lista" element={<ListagemFuncionarios />} />
                             <Route path="/funcionarios/editar/:id" element={<CadastroFuncionarios />} />
 
-                            {/* Rotas de Equipamentos Lenovo */}
-                            <Route path="/lenovo/cadastrar" element={<CadastroEquipamentosLenovo />} />
-                            <Route path="/lenovo/listar" element={<ListagemEquipamentosLenovo />} />
+                            {/* Rotas de Documentos */}
+                            <Route path="/documentos/upload" element={<CadastroDocumento />} />
+                            <Route path="/documentos/listar" element={<ListagemDocumentos />} />
 
                             {/* Rotas de Clientes */}
                             <Route path="/clientes/novo" element={<CadastroClientes />} />
