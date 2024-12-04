@@ -41,7 +41,7 @@ export default function DocumentosCliente() {
                 return;
             }
 
-            const cleanId = documentoId.toString().replace(/BsonObjectId{value=/, '').replace(/}$/, '');
+            const cleanId = documentoId.toString().replace(/BsonObjectId{value=/, "").replace(/}$/, "");
             const response = await api.get(`/documentos/download/${cleanId}`, {
                 responseType: "blob",
             });
@@ -52,20 +52,31 @@ export default function DocumentosCliente() {
                 return;
             }
 
-            const file = new Blob([response.data], { type: "application/pdf" });
+            const pdfBlob = response.data;
 
-            if (!window.PDFConverter) {
-                throw new Error("PDFConverter não está disponível.");
+            // Aqui, o processamento do PDF para HTML deve ser feito de maneira correta.
+            const pdfConverter = new window.PDFConverter();
+
+            // Verifique se o PDFConverter tem um método válido para processar.
+            const htmlContent = await pdfConverter.convertPDFtoHTML(pdfBlob, clienteDados.razaoSocial, api);
+
+            if (!htmlContent) {
+                setErro("Falha ao converter PDF para HTML.");
+                return;
             }
 
-            const pdfConverter = new window.PDFConverter();
-            const htmlContent = await pdfConverter.convertPDFtoHTML(file);
+            const editableContentElement = document.getElementById('editableContent');
+            if (!editableContentElement) {
+                console.error("Elemento 'editableContent' não encontrado.");
+                setErro("Elemento 'editableContent' não encontrado.");
+                return;
+            }
 
-            const htmlWithReplacements = htmlContent.replace(/\{\{(.*?)\}\}/g, (_, key) => {
-                return clienteDados[key.trim()] || `{{${key}}}`;
-            });
+            // Inserindo o conteúdo HTML gerado no elemento
+            editableContentElement.innerHTML = htmlContent;
 
-            const updatedPdfBlob = await pdfConverter.convertHTMLtoPDF(htmlWithReplacements);
+            // Se o conteúdo HTML for gerado corretamente, converta de volta para PDF
+            const updatedPdfBlob = await pdfConverter.convertHTMLtoPDF(htmlContent);
 
             const url = window.URL.createObjectURL(updatedPdfBlob);
             const link = document.createElement("a");
@@ -75,8 +86,8 @@ export default function DocumentosCliente() {
             link.click();
             link.remove();
         } catch (err) {
-            console.error("Erro ao processar documento:", err);
-            setErro("Erro ao tentar processar e baixar o documento.");
+            console.error("Erro ao processar o download:", err);
+            setErro("Erro ao processar o download do documento.");
         }
     };
 
@@ -106,7 +117,9 @@ export default function DocumentosCliente() {
                                             <td>
                                                 <button
                                                     className="button"
-                                                    onClick={() => handleDownload(documento.id, documento.nome)}
+                                                    onClick={() =>
+                                                        handleDownload(documento.id, documento.nome)
+                                                    }
                                                 >
                                                     Preencher e Baixar
                                                 </button>
@@ -122,6 +135,7 @@ export default function DocumentosCliente() {
                                 )}
                                 </tbody>
                             </table>
+                            <div id="editableContent" style={{ display: 'none' }}></div>
                         </div>
                     </div>
                 </div>

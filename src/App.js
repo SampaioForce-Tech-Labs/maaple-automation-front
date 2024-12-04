@@ -7,7 +7,7 @@ import CadastroFuncionarios from "./pages/funcionarios/cadastro";
 import ListagemFuncionarios from "./pages/funcionarios/listagem";
 import CadastroClientes from "./pages/Clientes/cadastro";
 import ListagemClientes from "./pages/Clientes/listagem";
-import DocumentosCliente from "./pages/Clientes/DocumentosCliente";
+import DocumentosCliente from "./pages/Clientes/documentosCliente";
 import Login from "./pages/Login";
 import { isAuthenticated } from "./service/auth";
 import EditorContrato from "./pages/Clientes/EditorCliente";
