@@ -56,8 +56,15 @@ export default function DocumentosCliente() {
             const pdfConverter = new PDFConverter();
             const htmlContent = await pdfConverter.convertPDFtoHTML(response.data, clienteDados.razaoSocial, api);
 
-            console.log(htmlContent);
+            const blob = new Blob([htmlContent], { type: 'text/html' });
+            const url = window.URL.createObjectURL(blob);
 
+            const link = document.createElement("a");
+            link.href = url;
+            link.setAttribute("download", `${documentoNome}.pdf`);
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
         } catch (err) {
             console.error("Erro ao processar o download:", err);
             setErro("Erro ao processar o download do documento.");
