@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import api from '../../../service/api';
-import '../EditorContrato/ContractEditorPage.css';
+import './/ContractEditorPage.css';
 
 const ContractEditorPage = () => {
   const [razaoSocial, setRazaoSocial] = useState('');

@@ -5,12 +5,12 @@ import Navbar from "./components/navbar";
 import Home from "./pages/Home";
 import CadastroFuncionarios from "./pages/funcionarios/cadastro";
 import ListagemFuncionarios from "./pages/funcionarios/listagem";
-import CadastroClientes from "./pages/Contratos/cadastro";
-import ListagemClientes from "./pages/Contratos/listagem";
-import DocumentosCliente from "./pages/Contratos/DocumentosCliente";
+import CadastroClientes from "./pages/Clientes/cadastro";
+import ListagemClientes from "./pages/Clientes/listagem";
+import DocumentosCliente from "./pages/Clientes/DocumentosCliente";
 import Login from "./pages/Login";
 import { isAuthenticated } from "./service/auth";
-import EditorContrato from "./pages/Contratos/EditorContrato";
+import EditorContrato from "./pages/Clientes/EditorCliente";
 import CadastroDocumento from "./pages/Documentos/UploadDocumento";
 import ListagemDocumentos from "./pages/Documentos/ListarDocumentos";
 
