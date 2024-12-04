@@ -7,6 +7,7 @@ import CadastroFuncionarios from "./pages/funcionarios/cadastro";
 import ListagemFuncionarios from "./pages/funcionarios/listagem";
 import CadastroClientes from "./pages/Contratos/cadastro";
 import ListagemClientes from "./pages/Contratos/listagem";
+import DocumentosCliente from "./pages/Contratos/DocumentosCliente";
 import Login from "./pages/Login";
 import { isAuthenticated } from "./service/auth";
 import EditorContrato from "./pages/Contratos/EditorContrato";
@@ -47,6 +48,8 @@ function App() {
                             {/* Rotas de Clientes */}
                             <Route path="/clientes/novo" element={<CadastroClientes />} />
                             <Route path="/clientes/listar" element={<ListagemClientes />} />
+                            <Route path="/cliente/selecionar/:id" element={<DocumentosCliente />} />
+
 
                             {/* Página de Login */}
                             <Route path="/login" element={<Login />} />

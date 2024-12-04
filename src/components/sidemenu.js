@@ -23,7 +23,7 @@ export default function SideMenu() {
                     className="brand-image elevation-3"
                     style={{ opacity: 0.8 }}
                 />
-                <span className="brand-text font-weight-light">Automatizador</span>
+                <span className="brand-text font-weight-light">AgilizaContrato</span>
             </Link>
 
             {/* Menu */}

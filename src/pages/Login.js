@@ -30,7 +30,7 @@ export default function Login() {
         <div className="login-page" style={{ background: `url(${Background})`, backgroundSize:"cover", backgroundPosition:'center', objectFit:'cover'}}  >
             <div className="card card card-yellow" style={{width: 600}}>
                 <div className="card-header text-center">
-                    <a href="../../index.html" className="h1"><b>Automatizador </b> de Contratos</a>
+                    <a href={"../../index.html"} className="h1">AgilizaContrato</a>
                 </div>
                 <div className="card-body">
                     <p className="login-box-msg">&nbsp;</p>

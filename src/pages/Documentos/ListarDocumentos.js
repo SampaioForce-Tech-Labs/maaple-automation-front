@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, {useState, useEffect} from "react";
 import api from "../../service/api";
 import "./ListarDocumentos.css";
 import pdfIcon from "../../assets/pdf-icon.png";
@@ -13,7 +13,7 @@ const ListarDocumentos = () => {
                 const response = await api.get("/documentos/listar");
                 console.log("Documentos recebidos:", response.data);
                 setDocumentos(response.data);
-                setErro(null);  // Clear the error message
+                setErro(null);
             } catch (err) {
                 console.error("Erro ao listar documentos:", err);
                 setErro("Não foi possível carregar os documentos.");
@@ -24,9 +24,8 @@ const ListarDocumentos = () => {
 
     const handleDownload = async (documentoId, documentoNome) => {
         try {
-            // Remove BsonObjectId{value= from the ID if present
             const cleanId = documentoId.toString().replace(/BsonObjectId{value=/, '').replace(/}$/, '');
-            
+
             const response = await api.get(`/documentos/download/${cleanId}`, {
                 responseType: "blob",
             });
@@ -47,6 +46,27 @@ const ListarDocumentos = () => {
             setErro("Erro ao tentar baixar o documento.");
         }
     };
+
+    const handleDelete = async (documentoId) => {
+        try {
+            const cleanId = documentoId.toString().replace(/BsonObjectId{value=/, '').replace(/}$/, '');
+
+            const response = await api.delete(`/documentos/delete/${cleanId}`);
+            if (response.status === 200) {
+                console.log("Documento deletado com sucesso.");
+                const newDocumentos = documentos.filter((doc) => doc.id !== documentoId);
+                setDocumentos(newDocumentos);
+                setErro(null);
+            } else {
+                console.error("Erro ao deletar o documento:", response.status);
+                setErro("Erro ao tentar deletar o documento.");
+            }
+        } catch (err) {
+            console.error("Erro ao deletar documento:", err);
+            setErro("Erro ao tentar deletar o documento.");
+        }
+    };
+
     return (
         <div className="container">
             <h2>Documentos</h2>
@@ -55,9 +75,11 @@ const ListarDocumentos = () => {
                 {documentos.length > 0 ? (
                     documentos.map((doc) => (
                         <li key={doc.id}>
-                            <img src={pdfIcon} alt="PDF Icon" />
+                            <img src={pdfIcon} alt="PDF Icon"/>
                             {doc.nome}
                             <button className="button" onClick={() => handleDownload(doc.id, doc.nome)}>Baixar</button>
+                            <button className="buttonDelete" onClick={() => handleDelete(doc.id, doc.nome)}>Delete
+                            </button>
                         </li>
                     ))
                 ) : (
