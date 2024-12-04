@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import PageTitle from "../../components/pagetitle";
 import api from "../../service/api";
 import { useParams } from "react-router-dom";
+import { PDFConverter } from '../../utils/pdf-converter';
 
 export default function DocumentosCliente() {
     const { id } = useParams();
@@ -52,39 +53,11 @@ export default function DocumentosCliente() {
                 return;
             }
 
-            const pdfBlob = response.data;
+            const pdfConverter = new PDFConverter();
+            const htmlContent = await pdfConverter.convertPDFtoHTML(response.data, clienteDados.razaoSocial, api);
 
-            // Aqui, o processamento do PDF para HTML deve ser feito de maneira correta.
-            const pdfConverter = new window.PDFConverter();
+            console.log(htmlContent);
 
-            // Verifique se o PDFConverter tem um método válido para processar.
-            const htmlContent = await pdfConverter.convertPDFtoHTML(pdfBlob, clienteDados.razaoSocial, api);
-
-            if (!htmlContent) {
-                setErro("Falha ao converter PDF para HTML.");
-                return;
-            }
-
-            const editableContentElement = document.getElementById('editableContent');
-            if (!editableContentElement) {
-                console.error("Elemento 'editableContent' não encontrado.");
-                setErro("Elemento 'editableContent' não encontrado.");
-                return;
-            }
-
-            // Inserindo o conteúdo HTML gerado no elemento
-            editableContentElement.innerHTML = htmlContent;
-
-            // Se o conteúdo HTML for gerado corretamente, converta de volta para PDF
-            const updatedPdfBlob = await pdfConverter.convertHTMLtoPDF(htmlContent);
-
-            const url = window.URL.createObjectURL(updatedPdfBlob);
-            const link = document.createElement("a");
-            link.href = url;
-            link.setAttribute("download", documentoNome);
-            document.body.appendChild(link);
-            link.click();
-            link.remove();
         } catch (err) {
             console.error("Erro ao processar o download:", err);
             setErro("Erro ao processar o download do documento.");
@@ -121,7 +94,7 @@ export default function DocumentosCliente() {
                                                         handleDownload(documento.id, documento.nome)
                                                     }
                                                 >
-                                                    Preencher e Baixar
+                                                    Baixar
                                                 </button>
                                             </td>
                                         </tr>
@@ -135,7 +108,6 @@ export default function DocumentosCliente() {
                                 )}
                                 </tbody>
                             </table>
-                            <div id="editableContent" style={{ display: 'none' }}></div>
                         </div>
                     </div>
                 </div>

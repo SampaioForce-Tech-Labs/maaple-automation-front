@@ -1,9 +1,8 @@
-class PDFConverter {
+export class PDFConverter {
     async convertPDFtoHTML(pdfFile, razaoSocial, api) {
         const response = await api.get(`/cliente/filtro/${razaoSocial}`);
         const clientData = await response.data;
 
-        // Define specific placeholders that match exactly with the PDF text
         const fieldMappings = {
             '"EDITABLE_NOME"': clientData.razaoSocial,
             '"EDITABLE_CPF"': clientData.cnpjCpf,
