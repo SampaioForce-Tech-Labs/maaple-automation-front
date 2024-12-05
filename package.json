@@ -19,6 +19,7 @@
     "flowbite": "^2.5.2",
     "flowbite-react": "^0.10.2",
     "html-pdf": "^3.0.1",
+    "html2canvas": "^1.4.1",
     "Maaple-Bank": "file:",
     "path-browserify": "^1.0.1",
     "pdf-lib": "^1.17.1",

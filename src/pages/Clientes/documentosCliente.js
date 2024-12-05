@@ -41,24 +41,30 @@ export default function DocumentosCliente() {
                 setErro("Os dados do cliente ainda não foram carregados.");
                 return;
             }
-
+    
+            // Download the original PDF as a blob
             const cleanId = documentoId.toString().replace(/BsonObjectId{value=/, "").replace(/}$/, "");
             const response = await api.get(`/documentos/download/${cleanId}`, {
                 responseType: "blob",
             });
-
+    
             if (response.status !== 200) {
                 console.error("Erro ao baixar o documento:", response.status);
                 setErro("Erro ao tentar baixar o documento.");
                 return;
             }
-
+    
+            const pdfBlob = response.data;
             const pdfConverter = new PDFConverter();
-            const htmlContent = await pdfConverter.convertPDFtoHTML(response.data, clienteDados.razaoSocial, api);
-
-            const blob = new Blob([htmlContent], { type: 'text/html' });
-            const url = window.URL.createObjectURL(blob);
-
+    
+            // Convert PDF to HTML and replace placeholders
+            const htmlContent = await pdfConverter.convertPDFtoHTML(pdfBlob, clienteDados.razaoSocial, api);
+    
+            // Convert the HTML back to PDF (preserving the layout)
+            const editedPDF = await pdfConverter.convertHTMLtoPDF(htmlContent);
+    
+            // Trigger download of the newly generated PDF
+            const url = window.URL.createObjectURL(editedPDF);
             const link = document.createElement("a");
             link.href = url;
             link.setAttribute("download", `${documentoNome}.pdf`);
@@ -70,6 +76,8 @@ export default function DocumentosCliente() {
             setErro("Erro ao processar o download do documento.");
         }
     };
+    
+    
 
     return (
         <>

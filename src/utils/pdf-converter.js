@@ -1,3 +1,5 @@
+import html2canvas from 'html2canvas';
+
 export class PDFConverter {
     async convertPDFtoHTML(pdfFile, razaoSocial, api) {
         const response = await api.get(`/cliente/filtro/${razaoSocial}`);
@@ -58,28 +60,42 @@ export class PDFConverter {
     }
 
     async convertHTMLtoPDF(htmlContent) {
-        const element = document.getElementById('editableContent');
-        const pdfDoc = await html2pdf()
-            .from(element)
-            .set({
-                margin: [10, 10],
-                filename: 'contract.pdf',
-                pagebreak: { mode: 'avoid-all' },
-            jsPDF: { 
-                unit: 'pt',
-                format: 'a4',
-                orientation: 'portrait'
-            },
-            html2canvas: {
-                scale: 2,
-                useCORS: true,
-                letterRendering: true
-            }
-        })
-        .outputPdf();
-            
-        return new Blob([pdfDoc], { type: 'application/pdf' });
+        const { PDFDocument } = await import('pdf-lib');
+        const pdfDoc = await PDFDocument.create();
+    
+        // Create a container to render the HTML
+        const tempDiv = document.createElement("div");
+        tempDiv.style.position = "absolute";
+        tempDiv.style.top = "-9999px"; // Move it out of view
+        tempDiv.style.margin = "0"; // Ensure no margin
+        tempDiv.style.padding = "0"; // Ensure no padding
+        tempDiv.innerHTML = htmlContent;
+        document.body.appendChild(tempDiv);
+    
+        // Use html2canvas to capture the HTML as an image
+        const canvas = await html2canvas(tempDiv, { scale: 2 });
+        document.body.removeChild(tempDiv);
+    
+        const imgData = canvas.toDataURL("image/png");
+        const img = await pdfDoc.embedPng(imgData);
+    
+        // Adjust placement to fix blank spaces
+        const page = pdfDoc.addPage([canvas.width, canvas.height]);
+        const { width, height } = page.getSize();
+        const yOffset = 0; // Adjust this if blank space persists (e.g., try -10)
+    
+        page.drawImage(img, {
+            x: 0,
+            y: yOffset,
+            width: width,
+            height: height,
+        });
+    
+        // Save the PDF and return as Blob
+        const pdfBytes = await pdfDoc.save();
+        return new Blob([pdfBytes], { type: "application/pdf" });
     }
+    
    
     async saveAsPDF(filename) {
         const htmlContent = document.querySelector('.contract-container').innerHTML;
