@@ -8,7 +8,7 @@ import { useNavigate, useParams } from "react-router-dom";
 export default function CadastroFuncionarios() {
   const [cargos, setCargos] = useState([]);
   const [nome, setNome] = useState("");
-  const [usuario, setUsuario] = useState("");
+  const [username, setUsername] = useState("");
   const [telefone, setTelefone] = useState("");
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
@@ -30,9 +30,9 @@ export default function CadastroFuncionarios() {
 
   async function buscarFuncionario(id) {
     try {
-      const response = await api.get(`/funcionario/editar/${id}`);
+      const response = await api.get(`/funcionario/listar/${id}`); // Updated endpoint
       setNome(response.data.nome);
-      setUsuario(response.data.usuario);
+      setUsername(response.data.username);
       setTelefone(response.data.telefone);
       setEmail(response.data.email);
       setSenha(response.data.senha);
@@ -53,7 +53,7 @@ export default function CadastroFuncionarios() {
 
     const payload = {
       nome,
-      username: usuario,
+      username,
       telefone,
       email,
       senha,
@@ -62,7 +62,7 @@ export default function CadastroFuncionarios() {
 
     if (id) {
       // Edit mode
-      api.put(`/funcionario/editar/${id}`, payload)
+      api.put("/funcionario/alterar", payload) // Updated endpoint
         .then((response) => {
           Swal.fire({
             title: "Sucesso!",
@@ -137,8 +137,8 @@ export default function CadastroFuncionarios() {
                     id="usuario_funcionario"
                     required
                     placeholder="Insira um nome de usuário"
-                    value={usuario}
-                    onChange={(e) => setUsuario(e.target.value)}
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
                   />
                 </div>
                 <div className="form-group">
